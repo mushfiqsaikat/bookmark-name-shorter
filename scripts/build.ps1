@@ -27,7 +27,7 @@ New-Item -ItemType Directory -Path (Join-Path $stagingDirectory "icons") -Force 
   Copy-Item -LiteralPath (Join-Path $projectRoot $_) -Destination $stagingDirectory
 }
 
-@(16, 32, 48, 128) | ForEach-Object {
+@(16, 24, 32, 48, 128) | ForEach-Object {
   $iconName = "icon$_.png"
   Copy-Item -LiteralPath (Join-Path $projectRoot "icons\$iconName") -Destination (Join-Path $stagingDirectory "icons")
 }

@@ -18,6 +18,9 @@ When the extension is installed or updated, it cleans matching titles throughout
 the existing bookmark library. Every newly created URL bookmark is also shortened
 automatically. Bookmark folders and URLs are never changed.
 
+The blue bookmark icon identifies the extension in Chrome's toolbar and
+extensions menu. It does not need to be clicked for automatic shortening.
+
 Chrome may briefly show the original title before the extension applies the
 shortened one. The bookmark dialog itself may keep showing the original title;
 after you select **Done**, the saved bookmark is shortened.
