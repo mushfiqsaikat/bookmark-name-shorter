@@ -4,8 +4,9 @@ A small Chrome extension that changes bookmark titles such as:
 
 `How to Cook Rice - YouTube` → `How to Cook Rice`
 
-Only a hyphen surrounded by whitespace is treated as a separator, so titles with
-hyphenated words such as `state-of-the-art` are left alone.
+The extension recognizes common website-title separators: a spaced hyphen,
+en dash, em dash, or spaced vertical bar. Ordinary hyphenated words such as
+`state-of-the-art` are left alone.
 
 ## Install
 
@@ -20,8 +21,8 @@ automatically. Bookmark folders and URLs are never changed.
 
 The blue bookmark icon identifies the extension in Chrome's toolbar and
 extensions menu. Its artwork is sized to fill the toolbar canvas while retaining
-a small anti-clipping margin. It does not need to be clicked for automatic
-shortening.
+a small anti-clipping margin. Click the icon to clean existing bookmarks again;
+a temporary badge shows how many titles were renamed.
 
 Chrome may briefly show the original title before the extension applies the
 shortened one. The bookmark dialog itself may keep showing the original title;

@@ -22,6 +22,7 @@ New-Item -ItemType Directory -Path (Join-Path $stagingDirectory "icons") -Force 
   "manifest.json",
   "background.js",
   "bookmark-manager.js",
+  "cleanup-controller.js",
   "title.js"
 ) | ForEach-Object {
   Copy-Item -LiteralPath (Join-Path $projectRoot $_) -Destination $stagingDirectory

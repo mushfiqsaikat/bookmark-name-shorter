@@ -6,15 +6,26 @@ import {
   renameChangedBookmark,
   renameBookmark,
 } from "../bookmark-manager.js";
+import {
+  runBookmarkCleanup,
+  runManualCleanup,
+} from "../cleanup-controller.js";
 import { shortenBookmarkTitle } from "../title.js";
 
-test("shortens a title at the first spaced hyphen", () => {
+test("shortens a title at the first common separator", () => {
   assert.equal(
     shortenBookmarkTitle("Article Title - Website Name"),
     "Article Title",
   );
   assert.equal(
     shortenBookmarkTitle("Article - Section - Website"),
+    "Article",
+  );
+  assert.equal(shortenBookmarkTitle("Article – Website"), "Article");
+  assert.equal(shortenBookmarkTitle("Article—Website"), "Article");
+  assert.equal(shortenBookmarkTitle("Article | Website"), "Article");
+  assert.equal(
+    shortenBookmarkTitle("Article | Section — Website"),
     "Article",
   );
 });
@@ -25,6 +36,7 @@ test("preserves hyphens inside words and titles without a separator", () => {
     "A state-of-the-art guide",
   );
   assert.equal(shortenBookmarkTitle("Plain title"), "Plain title");
+  assert.equal(shortenBookmarkTitle("A|B testing"), "A|B testing");
 });
 
 test("trims the retained title and accepts whitespace around the separator", () => {
@@ -37,6 +49,8 @@ test("trims the retained title and accepts whitespace around the separator", () 
 
 test("does not create an empty title", () => {
   assert.equal(shortenBookmarkTitle(" - Website"), " - Website");
+  assert.equal(shortenBookmarkTitle("— Website"), "— Website");
+  assert.equal(shortenBookmarkTitle(" | Website"), " | Website");
 });
 
 test("renameBookmark updates URL bookmarks but ignores folders", async () => {
@@ -122,7 +136,7 @@ test("cleanup traverses folders and continues after an update failure", async ()
             children: [
               { id: "2", title: "Protected - Site", url: "https://two.example" },
               { id: "3", title: "Already short", url: "https://three.example" },
-              { id: "4", title: "Last - Site", url: "https://four.example" },
+              { id: "4", title: "Last—Site", url: "https://four.example" },
             ],
           },
         ],
@@ -147,4 +161,71 @@ test("cleanup traverses folders and continues after an update failure", async ()
     ["4", { title: "Last" }],
   ]);
   assert.equal(warnings.length, 1);
+});
+
+test("shares one cleanup operation between overlapping triggers", async () => {
+  let resolveTree;
+  let treeReads = 0;
+  const bookmarksApi = {
+    getTree: () => {
+      treeReads += 1;
+      return new Promise((resolve) => {
+        resolveTree = resolve;
+      });
+    },
+  };
+
+  const firstCleanup = runBookmarkCleanup(bookmarksApi);
+  const secondCleanup = runBookmarkCleanup(bookmarksApi);
+
+  assert.strictEqual(firstCleanup, secondCleanup);
+  await Promise.resolve();
+  assert.equal(treeReads, 1);
+  resolveTree([]);
+  assert.deepEqual(await firstCleanup, { processed: 0, renamed: 0 });
+});
+
+test("manual cleanup shows and clears a renamed-count badge", async () => {
+  const updates = [];
+  const badgeCalls = [];
+  let clearBadge;
+  const chromeApi = {
+    bookmarks: {
+      getTree: async () => [
+        {
+          id: "root",
+          children: [
+            { id: "7", title: "Example – Site", url: "https://example.com" },
+          ],
+        },
+      ],
+      update: async (...args) => updates.push(args),
+    },
+    action: {
+      setBadgeBackgroundColor: async (details) => {
+        badgeCalls.push(["background", details]);
+      },
+      setBadgeText: async (details) => {
+        badgeCalls.push(["text", details]);
+      },
+    },
+  };
+
+  const result = await runManualCleanup(chromeApi, {
+    scheduleClear: (callback) => {
+      clearBadge = callback;
+      return 1;
+    },
+  });
+
+  assert.deepEqual(result, { processed: 1, renamed: 1 });
+  assert.deepEqual(updates, [["7", { title: "Example" }]]);
+  assert.deepEqual(badgeCalls, [
+    ["background", { color: "#2563EB" }],
+    ["text", { text: "1" }],
+  ]);
+
+  clearBadge();
+  await Promise.resolve();
+  assert.deepEqual(badgeCalls.at(-1), ["text", { text: "" }]);
 });
