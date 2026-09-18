@@ -1,12 +1,26 @@
 # Bookmark Name Shorter
 
-A small Chrome extension that changes bookmark titles such as:
+A small Chrome extension that removes trailing website names from bookmark
+titles.
 
-`How to Cook Rice - YouTube` → `How to Cook Rice`
+## Supported title formats
 
-The extension recognizes common website-title separators: a spaced hyphen,
-en dash, em dash, colon, or spaced vertical bar. Ordinary hyphenated words such
-as `state-of-the-art` are left alone.
+The extension keeps everything before the first supported separator:
+
+| Format | Original bookmark title | Saved bookmark title |
+| --- | --- | --- |
+| Spaced hyphen | `How to Cook Rice - YouTube` | `How to Cook Rice` |
+| Spaced en dash | `Article Title – Website` | `Article Title` |
+| Compact en dash | `Article Title–Website` | `Article Title` |
+| Spaced em dash | `Article Title — Website` | `Article Title` |
+| Compact em dash | `Article Title—Website` | `Article Title` |
+| Spaced colon | `Article Title : Website` | `Article Title` |
+| Compact colon | `Article Title:Website` | `Article Title` |
+| Spaced vertical bar | `Article Title | Website` | `Article Title` |
+
+To protect legitimate names, unspaced ASCII hyphens and vertical bars are not
+treated as separators. For example, `state-of-the-art`, `Title-Website`, and
+`A|B testing` remain unchanged.
 
 ## Install
 
