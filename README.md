@@ -1,4 +1,4 @@
-# Short Bookmark Names
+# Bookmark Name Shorter
 
 A small Chrome extension that changes bookmark titles such as:
 

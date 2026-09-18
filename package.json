@@ -1,10 +1,10 @@
 {
-  "name": "short-bookmark-names",
-  "version": "1.0.4",
+  "name": "bookmark-name-shorter",
+  "version": "1.0.5",
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node test/short-bookmark-names.test.js",
+    "test": "node test/bookmark-name-shorter.test.js",
     "build": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build.ps1"
   }
 }

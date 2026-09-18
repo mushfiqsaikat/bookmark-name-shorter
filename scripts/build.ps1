@@ -8,7 +8,7 @@ if (-not $distDirectory.StartsWith($projectRoot, [System.StringComparison]::Ordi
 }
 
 $manifest = Get-Content -Raw -LiteralPath (Join-Path $projectRoot "manifest.json") | ConvertFrom-Json
-$archiveName = "short-bookmark-names-v$($manifest.version).zip"
+$archiveName = "bookmark-name-shorter-v$($manifest.version).zip"
 $archivePath = Join-Path $distDirectory $archiveName
 $stagingDirectory = Join-Path $distDirectory "package"
 
