@@ -19,7 +19,9 @@ the existing bookmark library. Every newly created URL bookmark is also shortene
 automatically. Bookmark folders and URLs are never changed.
 
 The blue bookmark icon identifies the extension in Chrome's toolbar and
-extensions menu. It does not need to be clicked for automatic shortening.
+extensions menu. Its artwork is sized to fill the toolbar canvas while retaining
+a small anti-clipping margin. It does not need to be clicked for automatic
+shortening.
 
 Chrome may briefly show the original title before the extension applies the
 shortened one. The bookmark dialog itself may keep showing the original title;

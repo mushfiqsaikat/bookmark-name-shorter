@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Short Bookmark Names",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Keeps only the part of a bookmark title before the first spaced hyphen.",
   "icons": {
     "16": "icons/icon16.png",
