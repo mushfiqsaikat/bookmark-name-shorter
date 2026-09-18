@@ -1,4 +1,4 @@
-const COMMON_TITLE_SEPARATOR = /\s+-\s+|\s*[–—]\s*|\s+\|\s+/;
+const COMMON_TITLE_SEPARATOR = /\s+-\s+|\s*[–—:]\s*|\s+\|\s+/;
 
 /**
  * Keep the part of a bookmark title before its first common site separator.

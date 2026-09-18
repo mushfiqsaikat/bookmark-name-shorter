@@ -5,8 +5,8 @@ A small Chrome extension that changes bookmark titles such as:
 `How to Cook Rice - YouTube` → `How to Cook Rice`
 
 The extension recognizes common website-title separators: a spaced hyphen,
-en dash, em dash, or spaced vertical bar. Ordinary hyphenated words such as
-`state-of-the-art` are left alone.
+en dash, em dash, colon, or spaced vertical bar. Ordinary hyphenated words such
+as `state-of-the-art` are left alone.
 
 ## Install
 

@@ -23,6 +23,8 @@ test("shortens a title at the first common separator", () => {
   );
   assert.equal(shortenBookmarkTitle("Article – Website"), "Article");
   assert.equal(shortenBookmarkTitle("Article—Website"), "Article");
+  assert.equal(shortenBookmarkTitle("Article:Website"), "Article");
+  assert.equal(shortenBookmarkTitle("Article : Website"), "Article");
   assert.equal(shortenBookmarkTitle("Article | Website"), "Article");
   assert.equal(
     shortenBookmarkTitle("Article | Section — Website"),
@@ -50,6 +52,7 @@ test("trims the retained title and accepts whitespace around the separator", () 
 test("does not create an empty title", () => {
   assert.equal(shortenBookmarkTitle(" - Website"), " - Website");
   assert.equal(shortenBookmarkTitle("— Website"), "— Website");
+  assert.equal(shortenBookmarkTitle(":Website"), ":Website");
   assert.equal(shortenBookmarkTitle(" | Website"), " | Website");
 });
 
